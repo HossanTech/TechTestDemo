@@ -20,8 +20,12 @@ protocol PeopleListViewModelAction: ObservableObject {
 // MARK: - People List ViewModel Implementation.
 @MainActor
 final class PeopleListViewModel {
+  
   @Published var viewState = ViewState.load(peoples: [])
   @Published var isError = false
+  @Published var searchText = ""
+
+  private(set)  var filteredPeople: [PeopleData] = []
   private(set) var peopleLists: [PeopleData] = []
   private(set) var customError: NetworkError?
   private let repository: PeopleCardsRepository
@@ -50,3 +54,11 @@ extension PeopleListViewModel: PeopleListViewModelAction {
   }
 }
 
+extension PeopleListViewModel {
+  func performSearch(keyword: String) {
+    filteredPeople = peopleLists.filter { $0.firstName.lowercased().contains(keyword)}
+  }
+  var peopleList: [PeopleData] {
+    filteredPeople.isEmpty ? peopleLists: filteredPeople
+  }
+}

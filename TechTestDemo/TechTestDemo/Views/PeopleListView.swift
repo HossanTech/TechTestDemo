@@ -10,6 +10,7 @@ import SwiftUI
 struct PeopleListView: View {
   // MARK: - Using State Object to make sure view model object will not destroyed or recreate.
   @StateObject var viewModel: PeopleListViewModel
+
   var body: some View {
     NavigationStack {
       VStack {
