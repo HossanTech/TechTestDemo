@@ -10,13 +10,13 @@ import XCTest
 
 final class PeopleCardsRepositoryTests: XCTestCase {
   
-  var fakeNetworkManager: FakeNetworkManager!
-  var peopleCardsRepository: PeopleCardsRepository!
+  var fakeNetworkManager: FakeNetworkManager?
+  var peopleCardsRepository: PeopleCardsRepository?
   
   override func setUpWithError() throws {
     // Put setup code here. This method is called before the invocation of each test method in the class.
     fakeNetworkManager = FakeNetworkManager()
-    peopleCardsRepository = PeopleRepositoryImplementation (networkManager: fakeNetworkManager)
+    peopleCardsRepository = PeopleRepositoryImplementation (networkManager: fakeNetworkManager ?? FakeNetworkManager())
   }
   
   override func tearDownWithError() throws {
@@ -34,7 +34,7 @@ final class PeopleCardsRepositoryTests: XCTestCase {
       return
     }
     
-    let lists = try? await peopleCardsRepository.getPeopleList(for: url)
+    let lists = try? await peopleCardsRepository?.getPeopleList(for: url)
     // WHEN
     guard let listItem = lists else {
       XCTFail("List is nil")
@@ -57,7 +57,7 @@ final class PeopleCardsRepositoryTests: XCTestCase {
       return
     }
     
-    let lists = try? await peopleCardsRepository.getPeopleList(for: url)
+    let lists = try? await peopleCardsRepository?.getPeopleList(for: url)
     
     //THEN
     XCTAssertNil(lists)

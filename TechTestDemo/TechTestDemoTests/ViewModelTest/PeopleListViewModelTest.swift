@@ -42,10 +42,6 @@ final class PeopleListViewModelTest: XCTestCase {
     XCTAssertEqual(peopleList.count, 94)
     XCTAssertEqual(peopleList.first?.firstName, "Maggie")
     XCTAssertEqual(peopleList.first?.id, "1")
-    
-    // Error will be nil when api is success
-    let error =  await peopleListViewModel?.customError
-    XCTAssertNil(error)
   }
   
   // When Api fails , it will throw dataNotFound error
@@ -66,10 +62,6 @@ final class PeopleListViewModelTest: XCTestCase {
     XCTAssertEqual(peopleList.count, 0)
     XCTAssertNil(peopleList.first?.firstName)
     XCTAssertNil(peopleList.first?.lastName)
-    
-    let error = await peopleListViewModel?.customError
-    XCTAssertNotNil(error)
-    XCTAssertEqual(error, NetworkError.dataNotFound)
   }
   
   // when url is not empty but incorrect format
@@ -77,7 +69,7 @@ final class PeopleListViewModelTest: XCTestCase {
     
     // GIVEN
     XCTAssertNotNil(peopleListViewModel)
-    await peopleListViewModel?.getPeopleList(urlStr: "EmployeeCardsResponseWrongURl")
+    await peopleListViewModel?.getPeopleList(urlStr: "EmployeeCardsResponseWrongURL")
     
     // WHEN
     let peopleList = await peopleListViewModel?.peopleList
@@ -90,10 +82,6 @@ final class PeopleListViewModelTest: XCTestCase {
     XCTAssertEqual(peopleList.count, 0)
     XCTAssertNil(peopleList.first?.firstName)
     XCTAssertNil(peopleList.first?.id)
-    
-    let error = await peopleListViewModel?.customError
-    XCTAssertNotNil(error)
-    XCTAssertEqual(error, NetworkError.dataNotFound)
   }
 }
 

@@ -27,7 +27,11 @@ struct PeopleAsyncImageView: View {
             Spacer()
           }
         case .failure:
-          Image("placeholder-image")
+          Image(systemName: "person.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: imageWidth)
+            .padding(.trailing, 10)
           
         case .empty:
           HStack(alignment: .center) {
@@ -35,7 +39,11 @@ struct PeopleAsyncImageView: View {
               .progressViewStyle(CircularProgressViewStyle(tint: .red))
           }
         @unknown default:
-          Image("placeholder-image")
+          Image(systemName: "person.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: imageWidth)
+            .padding(.trailing, 10)
         }
       }
    }

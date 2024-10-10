@@ -10,81 +10,48 @@ import SwiftUI
 struct PeopleListView: View {
   // MARK: - Using State Object to make sure view model object will not destroyed or recreate.
   @StateObject var viewModel: PeopleListViewModel
-
+  @State private var isErrorOccured = true
+  @State var searchText = ""
+  
   var body: some View {
     NavigationStack {
       VStack {
         switch viewModel.viewState {
-        case.load(peoples: let peoples):
-          List {
-            ForEach(peoples, id: \.self) { peopleList in
-              NavigationLink(destination: PeopleDetailsView(people: peopleList)) {
-                PeopleCellView(people: peopleList)
-              }
-            }
-          }
-        case .refresh:
-          progressView()
+        case .loading:
+          ProgressView()
+        case .loaded:
+          showPeopleListView()
         case .error:
-          alertView()
+          showErrorView()
+        case .emptyView:
+          EmptyView()
         }
       }
-      .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
-          getToolBarView()
-        }
-      }
-      .navigationTitle(Text("People List"))
-    }
-    .task {
-      await getDataFromAPI()
-    }
-    .refreshable {
-      await getDataFromAPI()
-    }
-  }
-  
-  // MARK: - Making API call call URL .
-  func getDataFromAPI() async {
-    await viewModel.getPeopleList(urlStr: Endpoint.peopleListURL)
-  }
-  
-  // MARK: - Using ViewBuilder to create the child view.
-  @ViewBuilder
-  func progressView() -> some View {
-    VStack{
-      RoundedRectangle(cornerRadius: 15)
-        .fill(.white)
-        .frame(height: 180)
-        .overlay {
-          VStack{
-            ProgressView().padding(50)
-            Text("Please Wait Message").font(.headline)
-          }
-        }
+      .navigationTitle(Text(LocalizedStringKey("People List")))
+      .searchable(text: $searchText, prompt: "Please enter the name..")
+      .onChange(of: searchText, perform: viewModel.performSearch)
+    }.task {
+      await viewModel.getPeopleList(urlStr: Endpoint.peopleListURL)
     }
   }
   
   @ViewBuilder
-  func alertView() -> some View {
-    Text("").alert(isPresented: $viewModel.isError) {
-      Alert(title: Text("General_Error"), message: Text(viewModel.customError?.localizedDescription ?? ""),dismissButton: .default(Text("Okay")))
+  func showPeopleListView() -> some View {
+    List(viewModel.peopleList) { peopleList in
+      NavigationLink {
+        PeopleDetailsView(people: peopleList)
+      }label: {
+        PeopleCellView(people: peopleList)
+      }
     }
   }
   
   @ViewBuilder
-  func getToolBarView() -> some View {
-    Button {
-      Task {
-        await getDataFromAPI()
-      }
-    } label: {
-      HStack {
-        Image(systemName: "arrow.clockwise")
-          .padding(.all, 10.0)
-      }.fixedSize()
+  func showErrorView() -> some View {
+    ProgressView().alert(isPresented: $isErrorOccured) {
+      Alert(title: Text("Error Occured"),message: Text("Something went wrong"),
+            dismissButton: .default(Text("Ok")))
     }
-    .cornerRadius(5.0)
   }
 }
 

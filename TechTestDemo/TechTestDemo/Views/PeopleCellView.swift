@@ -25,6 +25,7 @@ struct PeopleCellView: View {
                 
               Text("Last Name: " + (people.lastName ?? "Not Available"))
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.subheadline)
 
               Text("ID: " + (people.id ?? "Not Available"))
                 .frame(maxWidth: .infinity, alignment: .leading)

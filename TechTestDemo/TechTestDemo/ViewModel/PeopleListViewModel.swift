@@ -8,9 +8,10 @@
 import Foundation
 
 enum ViewState {
-  case load(peoples: [PeopleData])
-  case refresh
+  case loading
   case error
+  case loaded
+  case emptyView
 }
 
 protocol PeopleListViewModelAction: ObservableObject {
@@ -21,34 +22,30 @@ protocol PeopleListViewModelAction: ObservableObject {
 @MainActor
 final class PeopleListViewModel {
   
-  @Published var viewState = ViewState.load(peoples: [])
-  @Published var isError = false
-  @Published var searchText = ""
-
-  private(set)  var filteredPeople: [PeopleData] = []
-  private(set) var peopleLists: [PeopleData] = []
-  private(set) var customError: NetworkError?
+  @Published private(set) var viewState: ViewState = .loaded
+  @Published private(set) var filteredPeople = [PeopleData]()
+  @Published private var peopleLists: [PeopleData] = []
   private let repository: PeopleCardsRepository
   
   init(repository: PeopleCardsRepository) {
     self.repository = repository
   }
+  
+  var peopleList: [PeopleData] {
+    filteredPeople.isEmpty ? peopleLists: filteredPeople
+  }
 }
 
 extension PeopleListViewModel: PeopleListViewModelAction {
+  
   func getPeopleList(urlStr: String) async {
-    viewState = .refresh
-    guard let url = URL(string: urlStr) else {
-      self.customError = NetworkError.invalidURL
-      return
-    }
+    viewState = .loaded
+    guard let url = URL(string: urlStr) else { return }
     do {
       let lists = try await repository.getPeopleList(for: url)
       peopleLists = lists
-      viewState = .load(peoples: peopleLists)
+      viewState =  peopleLists.isEmpty ? .emptyView : .loaded
     } catch {
-      customError = error as? NetworkError
-      isError = true
       viewState = .error
     }
   }
@@ -56,9 +53,9 @@ extension PeopleListViewModel: PeopleListViewModelAction {
 
 extension PeopleListViewModel {
   func performSearch(keyword: String) {
-    filteredPeople = peopleLists.filter { $0.firstName.lowercased().contains(keyword)}
-  }
-  var peopleList: [PeopleData] {
-    filteredPeople.isEmpty ? peopleLists: filteredPeople
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      guard let self = self else { return }
+      self.filteredPeople = self.peopleLists.filter { $0.firstName.localizedStandardContains(keyword) }
+    }
   }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PeopleData: Decodable, Hashable {
+struct PeopleData: Decodable, Identifiable {
     var createdAt: String?
     var firstName: String
     var avatar: String?
