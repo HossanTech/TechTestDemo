@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct TechTestDemoApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  
+  // MARK: - Creating People List View with view model Repository and NetworkManager .
+  
+  var body: some Scene {
+    WindowGroup {
+      PeopleListView(viewModel: PeopleListViewModel(repository: PeopleRepositoryImplementation(networkManager: NetworkManager())))
     }
+  }
 }

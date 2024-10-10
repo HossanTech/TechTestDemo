@@ -40,7 +40,7 @@ extension PeopleListViewModel: PeopleListViewModelAction {
     }
     do {
       let lists = try await repository.getPeopleList(for: url)
-      peopleLists = [lists]
+      peopleLists = lists
       viewState = .load(peoples: peopleLists)
     } catch {
       customError = error as? NetworkError
