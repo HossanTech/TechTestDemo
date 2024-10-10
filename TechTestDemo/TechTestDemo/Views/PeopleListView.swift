@@ -11,7 +11,7 @@ struct PeopleListView: View {
   // MARK: - Using State Object to make sure view model object will not destroyed or recreate.
   @StateObject var viewModel: PeopleListViewModel
   @State private var isErrorOccured = true
-  @State var searchText = ""
+  @State private var searchText = ""
   
   var body: some View {
     NavigationStack {
@@ -34,7 +34,7 @@ struct PeopleListView: View {
       await viewModel.getPeopleList(urlStr: Endpoint.peopleListURL)
     }
   }
-  
+  // MARK: - Using ViewBuilder to create the child view.
   @ViewBuilder
   func showPeopleListView() -> some View {
     List(viewModel.peopleList) { peopleList in

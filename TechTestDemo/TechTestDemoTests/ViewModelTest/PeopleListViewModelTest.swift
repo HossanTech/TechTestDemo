@@ -36,7 +36,9 @@ final class PeopleListViewModelTest: XCTestCase {
     guard let peopleList = peopleList else {
       XCTFail("List is nil")
       return
-    }      // THEN
+    }
+    
+    // THEN
     // checking records count and employee note on success
     XCTAssertNotNil(peopleList)
     XCTAssertEqual(peopleList.count, 94)
@@ -82,6 +84,50 @@ final class PeopleListViewModelTest: XCTestCase {
     XCTAssertEqual(peopleList.count, 0)
     XCTAssertNil(peopleList.first?.firstName)
     XCTAssertNil(peopleList.first?.id)
+  }
+  
+  // when url is correct, should have some data in People List
+  func test_Search_When_URL_Is_Correct() async {
+    
+    // GIVEN
+    await peopleListViewModel?.getPeopleList(urlStr: "PeopleCardsResponse")
+    
+    // WHEN
+    let peopleList =  await peopleListViewModel?.peopleList
+    guard let peopleList = peopleList else {
+      XCTFail("List is nil")
+      return
+    }
+    await peopleListViewModel?.performSearch(keyword: "Rock")
+    // THEN
+    // checking records count and employee note on success
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      XCTAssertNotNil(peopleList)
+      XCTAssertEqual(peopleList.count, 1)
+      XCTAssertEqual(peopleList.first?.firstName, "Rocky")
+      XCTAssertEqual(peopleList.first?.id, "6")
+    }
+  }
+  
+  func test_Search_When_Text_Is_Magg() async {
+    
+    // GIVEN
+    await peopleListViewModel?.getPeopleList(urlStr: "PeopleCardsResponse")
+    
+    // WHEN
+    let peopleList =  await peopleListViewModel?.peopleList
+    guard let peopleList = peopleList else {
+      XCTFail("List is nil")
+      return
+    }
+    await peopleListViewModel?.performSearch(keyword: "Magg")
+    // THEN
+    // checking records count and employee note on success
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      XCTAssertNotNil(peopleList)
+      XCTAssertEqual(peopleList.count, 7)
+      XCTAssertEqual(peopleList.first?.firstName, "Maggi")
+    }
   }
 }
 
