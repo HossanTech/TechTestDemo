@@ -51,6 +51,7 @@ extension PeopleListViewModel: PeopleListViewModelAction {
   }
 }
 
+// MARK: - Using debounce and delay 0.5 seconds to allow user to type into search bar and then start filtering the text.
 extension PeopleListViewModel {
   func performSearch(keyword: String) {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
