@@ -55,7 +55,7 @@ extension PeopleListViewModel {
   func performSearch(keyword: String) {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
       guard let self = self else { return }
-      self.filteredPeople = self.peopleLists.filter { $0.firstName.localizedStandardContains(keyword) }
+      self.filteredPeople = self.peopleLists.filter {$0.firstName.localizedStandardContains(keyword)}
     }
   }
 }

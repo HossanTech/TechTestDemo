@@ -39,7 +39,7 @@ final class PeopleListViewModelTest: XCTestCase {
     }
     
     // THEN
-    // checking records count and employee note on success
+    // checking records count and people note on success
     XCTAssertNotNil(peopleList)
     XCTAssertEqual(peopleList.count, 94)
     XCTAssertEqual(peopleList.first?.firstName, "Maggie")
@@ -100,7 +100,7 @@ final class PeopleListViewModelTest: XCTestCase {
     }
     await peopleListViewModel?.performSearch(keyword: "Rock")
     // THEN
-    // checking records count and employee note on success
+    // checking records count and people note on success
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       XCTAssertNotNil(peopleList)
       XCTAssertEqual(peopleList.count, 1)
@@ -122,7 +122,7 @@ final class PeopleListViewModelTest: XCTestCase {
     }
     await peopleListViewModel?.performSearch(keyword: "Magg")
     // THEN
-    // checking records count and employee note on success
+    // checking records count and people note on success
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       XCTAssertNotNil(peopleList)
       XCTAssertEqual(peopleList.count, 7)
