@@ -1,6 +1,8 @@
 # App documentation.. 
 This is the coding test to demonstrate the showcase about SwiftUI. In this coding , I have used publicy available API (https://61e947967bc0550017bc61bf.mockapi.io/api/v1/people) which contains people data with properties like Name, Email , Last name etc. In this test , I have tried to cover following requirment as it stated into PDF (SOLID principles, Code Architecture, Modular, SwiftUI, Unit tests).
 
+* **Tools:** For this demo , I have used Xcode 16.0 with swift version 6.0. For this example I targeted minimum deployemnt veriosn 16.0.
+
 * **Architecture:** For this example, I have followed the MVVM (View - Model - ViewModel + Clean). The view contains only code which is related to view. The model contains code only for json code/decodable objects. The viewModel constains only code for which is related to business logic. The seperation of the code and logic  help to write require unit test / UI test case. The MVVM is the most recommend architecture design compare to tradition architecture design pattern. The MVVM architectural design pattern also help to write the clean code, which increase the simplicity, readability, testability of the code.  
 
 * **SOLID principles:** I have followed the SOLID principles . I have given single responsibility of the each class and separate the interface and protocol of the each class to mkae sure the code is not tightly coupled. In addition , I have given seperate layer for handling json parsing (Repository layer).
@@ -17,4 +19,13 @@ This is the coding test to demonstrate the showcase about SwiftUI. In this codin
 Here is the details view when the list cell is selected.
 
 ![Simulator Screenshot - iPhone 16 Pro - 2024-10-11 at 13 35 34](https://github.com/user-attachments/assets/96ba4d0e-cc6a-48e2-82b3-09881a87a7c5)
+
+Here is the seach functionality screen.
+
+![Simulator Screenshot - iPhone 16 Pro - 2024-10-11 at 13 35 51](https://github.com/user-attachments/assets/145f03b6-a6db-47f7-ab2b-37f13501f249)
+
+Here is the screenshot for different mode ..
+
+![Simulator Screenshot - iPhone 16 Pro - 2024-10-11 at 13 36 15](https://github.com/user-attachments/assets/33087dc6-e762-4666-a669-c1ab7765c9bc)
+
 
