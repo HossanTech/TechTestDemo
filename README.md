@@ -13,6 +13,8 @@ This is the coding test to demonstrate the showcase about SwiftUI. In this codin
 
 * **Simplicity and Readability:** Because of the async and await and the Soild principles  the code is very easy to understand. The async and await is help to write the less code which increase the readability of the code. Also help us to write batter unit test.
 
+ * **Unit testing , Snapshot Testing and  UITesting:** Each of the business logic has been testing by using XCTTesting frmaework with Test Driven Development approch. The shapshot teting is done by using snapshot testing packge by using SPM and result was recorded into directory. The UI testing especially the app title ony recorded. 
+
 **Here is the screenshot when the app is lunched**
 ![Simulator Screenshot - iPhone 16 Pro - 2024-10-11 at 13 35 21](https://github.com/user-attachments/assets/f260c6e7-9c64-4bdc-85fd-e46316a47012)
 
